@@ -68,9 +68,37 @@ def inverse_kinematics(x, y, z, elbow_up=False):
 
 
 
+# 2. Define the keypress handler
+def key_callback(keycode):
+    global x, y, z
+    
+    # key = chr(keycode).upper()
+    
+    if keycode == 265 : z += step_size  # Up
+    elif keycode == 264 : z -= step_size  # Down
+    elif keycode == 263 : x += step_size  # Right
+    elif keycode == 262 : x -= step_size  # Left
+    # elif keycode == 'U': y += step_size  # Positive Y
+    # elif keycode == 'O': y -= step_size  # Negative Y
+    
+    else:
+        try:
+            key = chr(keycode).upper()
+            if key == 'B':
+                y += step_size  # Q replacement
+            elif key == 'V':
+                y -= step_size  # E replacement
+        except (ValueError, OverflowError):
+            # This catches non-character keys to prevent crashes
+            pass
+
+
+
+
+
 
 # Launch the simulation
-with mujoco.viewer.launch_passive(model, data) as viewer:
+with mujoco.viewer.launch_passive(model, data, key_callback=key_callback) as viewer:
     start_time = time.time()
 
     while viewer.is_running():
