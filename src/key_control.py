@@ -1,6 +1,6 @@
 
 class Target:
-    def __init__(self, x=0.8, y=0.2, z=0.9, step=0.02):
+    def __init__(self, x, y, z, step=0.02):
         self.x = x
         self.y = y
         self.z = z

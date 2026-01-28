@@ -14,12 +14,8 @@ model = mujoco.MjModel.from_xml_path(xml_file)
 data = mujoco.MjData(model)
 
 
-# site_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_SITE, "sP")
-# x1, y1, z1 = data.site_xpos[site_id].copy()  
-# print("Calculated Position from IK\n")
-# print(x1, y1, z1)
 
-target = Target(x=0.8, y=0.2, z=0.9, step=0.02)
+target = Target(x=0.6, y=0.0, z=0.5, step=0.02)
 key_callback = make_key_callback(target)
 
 

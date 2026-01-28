@@ -54,9 +54,9 @@ def inverse_kinematics(x, y, z, elbow_up=False):
 #Orientation Part
 
     R0_6 = np.array([
-        [1.0, 0.0, 0.0],
-        [0.0, 1.0, 0.0],
-        [0.0, 0.0, 1.0]
+        [0.0, 0.0, 1.0],
+        [0.0, -1.0, 0.0],
+        [1.0, 0.0, 0.0]
         ], dtype=float)
 
     R0_3 = np.array([
@@ -68,12 +68,16 @@ def inverse_kinematics(x, y, z, elbow_up=False):
     invR0_3 = np.linalg.inv(R0_3)
     R3_6 = np.dot(invR0_3, R0_6)
 
+    s5 = np.sqrt(R3_6[0, 2]**2 + R3_6[1, 2]**2)
+    theta5 = np.arctan2(s5, R3_6[2, 2])
 
-    theta5 = np.arccos(R3_6[2][2])
+    if s5 < 1e-8:
 
-    theta6 = np.arccos(-R3_6[2][0] / np.sin(theta5))
-
-    theta4 = np.arccos(R3_6[1][2] / np.sin(theta5))
+        theta4 = 0.0
+        theta6 = np.arctan2(-R3_6[0, 1], R3_6[0, 0])
+    else:
+        theta4 = np.arctan2(R3_6[1, 2], R3_6[0, 2])
+        theta6 = np.arctan2(R3_6[2, 1], -R3_6[2, 0])
 
 
     return theta1, theta2, theta3, theta4, theta5, theta6   
